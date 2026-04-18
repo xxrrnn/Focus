@@ -1,0 +1,137 @@
+% LaTeX template for Artifact Evaluation V20240722
+%
+% Prepared by Grigori Fursin with contributions from Bruce Childers,
+%   Michael Heroux, Michela Taufer and other colleagues.
+%
+% See examples of this Artifact Appendix in
+%  * ASPLOS'24 "PyTorch 2: Faster Machine Learning Through Dynamic Python Bytecode Transformation and Graph Compilation":
+%      https://dl.acm.org/doi/10.1145/3620665.3640366
+%  * SC'17 paper: https://dl.acm.org/citation.cfm?id=3126948
+%  * CGO'17 paper: https://www.cl.cam.ac.uk/~sa614/papers/Software-Prefetching-CGO2017.pdf
+%  * ACM ReQuEST-ASPLOS'18 paper: https://dl.acm.org/citation.cfm?doid=3229762.3229763
+%
+% (C)opyright 2014-2024 cTuning.org
+%
+% CC BY 4.0 license
+%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% When adding this appendix to your paper,
+% please remove above part
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+\section{Artifact Appendix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Abstract}
+
+This artifact provides a complete implementation of \textit{Focus}, a streaming concentration architecture
+for efficient vision-language model (VLM) inference. The artifact includes three main components:
+(1) Algorithm implementation of Focus and baseline methods (CMC, Adaptiv, FrameFusion) for multiple VLMs, including LLaVA-Video, LLaVA-OneVision, MiniCPM-V, and Qwen2.5-VL; (2) Cycle-accurate hardware simulator with energy/power estimation and design space exploration capabilities; (3) RTL implementation in Verilog/SystemVerilog. The artifact enables the reproduction of all key results, including accuracy evaluations on the VideoMME, MLVU, MVBench, VQAv2, MME, and MMBench datasets, performance/energy simulations across various design configurations. Generated traces and simulation outputs can be used to reproduce all figures and tables in the evaluation section.
+
+\subsection{Artifact check-list (meta-information)}
+
+{\small
+\begin{itemize}
+  \item {\bf Algorithm: } Focus multilevel concentration (semantic, block, vector levels), CMC, Adaptiv, FrameFusion baselines
+  \item {\bf Program: } Python 3.11+ with PyTorch 2.6.0+
+  \item {\bf Compilation: } Python package installation via pip, third-party code compilation with g++
+  \item {\bf Model: } LLaVA-Video-7B-Qwen2, MiniCPM-V-2.6, LLaVa-OneVision-qwen2-7b-ov, Qwen2.5-VL-7B-Instruct
+  \item {\bf Dataset: } VideoMME, MLVU, MVBench (video); VQAv2, MME, MMBench (image)
+  \item {\bf Run-time environment: } Ubuntu 22.04.2 LTS, CUDA 12.1, PyTorch 2.6.0, Conda environment, HuggingFace Hub access
+  \item {\bf Hardware: } NVIDIA datacenter GPU (A100), multi-core CPU x86\_64 processor
+  \item {\bf Execution: } Bash scripts for trace generation, Python scripts for simulation and evaluation, Jupyter notebooks for plotting
+  \item {\bf Metrics: } Model accuracy, sparsity ratio, latency (cycles), energy (mJ), power (W), area (mm²)
+  \item {\bf Output: } CSV files with accuracy/sparsity metrics, PyTorch trace files (.pth), simulation result CSVs, Jupyter notebooks for plotting
+  \item {\bf Experiments: } Trace generation, accuracy evaluation, hardware simulation, design space exploration
+  \item {\bf How much disk space required (approximately)?: } 128GB (models + datasets + traces + codes)
+  \item {\bf How much time is needed to prepare workflow (approximately)?: } 1 hour (installation + model download)
+  \item {\bf How much time is needed to complete experiments (approximately)?: } 6 hours without accuracy evaluation, 480 hours with accuracy evaluation.
+  \item {\bf Publicly available?: } \href{https://github.com/dubcyfor3/Focus.git}{https://github.com/dubcyfor3/Focus.git}
+  \item {\bf Code licenses (if publicly available)?: } MIT License
+  \item {\bf Data licenses (if publicly available)?: } The datasets are publicly available through their original licensing terms.
+  \item {\bf Workflow automation framework used?: } Bash scripts, Python entry points, Jupyter notebooks
+  \item {\bf Archived (provide DOI)?: } \href{https://doi.org/10.5281/zenodo.17851347}{https://doi.org/10.5281/zenodo.17851347}
+\end{itemize}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Description}
+
+\subsubsection{How to access}
+
+The artifact is available as a Git repository at \href{https://github.com/dubcyfor3/Focus.git}{https://github.com/dubcyfor3/Focus.git}. Clone the repository and initialize submodules
+
+
+\subsubsection{Hardware dependencies}
+
+\begin{itemize}
+  \item \textbf{GPU:} NVIDIA GPU with 80GB HBM (e.g. A100).
+  \item \textbf{CPU:} x86\_64 processor
+  \item \textbf{Storage:} 128GB+ available disk space
+\end{itemize}
+
+\subsubsection{Software dependencies}
+The experiments rely on the following software components.
+\begin{itemize}
+  \item Ubuntu 22.04+ (tested on Ubuntu 22.04 LTS)
+  \item Python 3.11+
+  \item PyTorch 2.6.0 with CUDA support
+  \item Transformers 4.48.2 (or 4.49.0 for Qwen2.5-VL)
+  \item Accelerate 0.29.1+
+  \item Flash-attention 2.7.4.post1
+  \item g++ compiler
+  \item HuggingFace CLI and account (for model/dataset access)
+\end{itemize}
+
+\subsubsection{Data sets} VideoMME, MLVU, MVBench, VQAv2, MME, MMBench
+
+
+\subsubsection{Models}
+
+The artifact supports multiple pre-trained VLMs accessible via HuggingFace:
+
+\begin{itemize}
+  \item \textbf{LLaVA-Video-7B-Qwen2} \\
+  (\texttt{lmms-lab/LLaVA-Video-7B-Qwen2})
+  \item \textbf{MiniCPM-V-2.6} \\
+  (\texttt{openbmb/MiniCPM-V-2\_6})
+  \item \textbf{LLaVA-OneVision} \\
+  (\texttt{lmms-lab/llava-onevision-qwen2-7b-ov})
+  \item \textbf{Qwen2.5-VL} \\
+  (\texttt{Qwen/Qwen2.5-VL-7B-Instruct})
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Installation}
+
+We have well-documented README files to detail the installation instructions for each experiment at \href{https://github.com/dubcyfor3/Focus.git}{https://github.com/dubcyfor3/Focus.git}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Experiment workflow}
+
+The README file also specifies the detailed experimental workflow for obtaining the results reported in the paper.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Evaluation and expected results}
+
+Comprehensive README files are provided to document the evaluation procedures for accelerator latency, energy, area, and model accuracy. Expected results can be found in the directories \texttt{simulator/example\_sim\_results} and \texttt{algorithm/example\_output}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Methodology}
+
+Submission, reviewing, and badging methodology:
+
+\begin{itemize}
+  \item \url{https://www.acm.org/publications/policies/artifact-review-and-badging-current}
+  \item \url{https://cTuning.org/ae}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% When adding this appendix to your paper,
+% please remove below part
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

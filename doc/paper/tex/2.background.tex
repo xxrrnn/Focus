@@ -1,0 +1,30 @@
+\section{Background}
+
+\subsection{Vision-Language Models}
+The success of Large Language Models (LLMs), such as GPT~\cite{achiam2023gpt} and LLaMA~\cite{touvron2023llama}, has driven remarkable progress across a broad range of applications. Building upon this foundation, Vision-Language Models (VLMs) extend the capabilities of LLMs to multimodal inputs, enabling joint reasoning over visual and textual information. This multimodal capability significantly broadens their utility in tasks such as video captioning~\cite{maeda2024vlm_based_caption_eval}, visual question answering (VQA)~\cite{das2025vlm_continual_vqa,sinha2024guiding_vlm_sel_for_vqa}, and interactive multimodal assistants~\cite{liu2023llava,bordes2024introduction}. 
+With superior adaptability and generalization in open-world visual scenarios, VLMs are emerging as a transformative technology with far-reaching impact in both academic~\cite{alayrac2022flamingo,lin2024vila,girdhar2023imagebind} and industrial~\cite{achiam2023gpt,team2024gemini,aws2023titan_multimodal_embeddings} domains.
+
+
+Modern VLMs consist of a vision encoder and a Large Language Model (LLM) that jointly process visual and textual inputs. 
+In video-based VLMs, videos are sampled into frames, divided into patches, and tokenized by the vision encoder into embeddings, which are projected into the LLM’s word embedding space for multimodal fusion. 
+These visual tokens are concatenated with text prompts and processed by the LLM to generate text outputs.
+
+The LLM with Transformer~\cite{vaswani2017attention,brown2020language} model architecture dominates both model size and computation. 
+For example, in LLaVA-OneVision-72B~\cite{li2024llava}, it accounts for \textbf{99.35\%} of parameters and \textbf{98.98\%} of operations. 
+{Moreover, visual tokens typically make up 98\%–99\% of total inputs; in LLaVA-OneVision on the VideoMME dataset~\cite{fu2025video}, each sample averages 6,272 visual tokens versus only 109 text tokens.} 
+Therefore, optimizing LLM efficiency is crucial for accelerating VLMs.
+
+\subsection{Efficiency Optimizations for VLM}
+
+\textbf{Efficient Algorithms.}  
+Video-based VLMs generate a large number of tokens, placing heavy demands on compute and memory. To mitigate this, various token pruning techniques have been proposed~\cite{dynamicllava,voco,fastv,liu2025keyframe,wang2025corematching}. 
+For instance, Prumerge~\cite{prumerge} uses sparse attention scores between the class token and visual tokens to discard less important ones, while FrameFusion~\cite{fu2024framefusion} merges temporally redundant tokens across frames.
+
+These methods show that only a small subset of tokens is needed to preserve performance. However, they often incur runtime overhead for importance estimation and produce irregular sparsity patterns that limit GPU utilization.
+
+\textbf{Hardware Accelerators.}  
+Dedicated VLM accelerators are still rare, though Vision Transformer (ViT) accelerators~\cite{song2024cmc,yoo2024adaptiv,dong2023heatvit} offer transferable insights.  
+AdapTiV~\cite{yoo2024adaptiv} merges nearby tokens using lightweight similarity checks based on sign bits, while CMC~\cite{song2024cmc} leverages video codec hardware to detect inter-frame redundancy.
+These designs offload token selection to specialized logic, reducing overhead and enabling efficient sparsity utilization, but are limited to coarse-grained, token-level pruning.
+
+In contrast, \proj{} captures both coarse- and fine-grained redundancy through a multi-level concentration strategy. This broadens the scope of efficiency gains and enables hardware-friendly sparsity, as detailed in the following sections.

@@ -1,0 +1,94 @@
+\documentclass[10pt,conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[hyphens]{url}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+
+\input{macros}
+
+% Ensure letter paper
+\pdfpagewidth=8.5in
+\pdfpageheight=11in
+
+\newcommand{\hpcayear}{2026}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%% -- UPDATE -- %%%%%%%%%%%%%%%
+\newcommand{\hpcasubmissionnumber}{4}
+\title{Focus: A Streaming Concentration Architecture for Efficient Vision-Language Models}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% -- ONLY FOR CAMERA READY -- %%%%%%%%
+\def\hpcacameraready{} % Uncomment to build camera-ready version
+\newcommand{\hpcapubid}{0000--0000/00\$00.00}
+% ===== Authors =====
+\newcommand\hpcaauthors{
+Chiyue Wei$^{\dagger*}$,
+Cong Guo$^{\dagger*\S}$,
+Junyao Zhang$^{\dagger}$,
+Haoxuan Shan$^{\dagger}$,
+Yifan Xu$^{\dagger}$,
+Ziyue Zhang$^{\dagger}$, \\
+Yudong Liu$^{\dagger}$,
+Qinsi Wang$^{\dagger}$,
+Changchun Zhou$^{\dagger}$,
+Hai ``Helen'' Li$^{\dagger}$,
+Yiran Chen$^{\dagger}$
+}
+
+% ===== Affiliations =====
+\newcommand\hpcaaffiliation{
+$^{\dagger}$Duke University \quad
+$^{*}$Equal contribution \quad
+$^{\S}$Corresponding author
+}
+
+% ===== Emails =====
+\newcommand\hpcaemail{
+\{chiyue.wei, cong.guo, hai.li, yiran.chen\}@duke.edu
+}
+
+
+%%%%% -- ARTEFACT EVALUATION RESULTS -- %%%%%%
+% Uncomment the following based on the badges that were awarded to this paper
+%\def\aeopen{}           % The artifact is publically available
+%\def\aereviewed{}     % The artefact has been reviewed
+%\def\aereproduced{} % The results have been reproduced
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{hpca-template}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% -- PAPER CONTENT STARTS -- %%%%%%%%%
+%%%%%% -- PAPER CONTENT STARTS-- %%%%%%%%
+\input{tex/0.abstract}
+\input{tex/1.introduction}
+\input{tex/2.background}
+\input{tex/3.motivation}
+\input{tex/4.overview}
+\input{tex/5.semantic}
+\input{tex/6.vector}
+\input{tex/7.evaluation} 
+\input{tex/8.conclusion}
+\input{tex/acknowledgement}
+\input{tex/artifact_appendix}
+
+
+%%%%%%% -- PAPER CONTENT ENDS -- %%%%%%%%
+
+
+%%%%%%%%% -- BIB STYLE AND FILE -- %%%%%%%%
+\bibliographystyle{IEEEtranS}
+\bibliography{refs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+

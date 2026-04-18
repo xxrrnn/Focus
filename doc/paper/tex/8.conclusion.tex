@@ -1,0 +1,7 @@
+\section{Conclusion}
+We present \proj{}, a streaming concentration architecture that jointly optimizes algorithm and hardware for efficient VLM inference.  
+Our Multilevel Concentration strategy removes redundancy at the semantic, block, and vector levels, while our hardware design performs in-place compression aligned with GEMM tiling and streaming execution.
+\proj{} achieves up to \textbf{2.35$\times$} speedup and {\textbf{3.29$\times$}} energy efficiency improvement over state-of-the-art baselines, with only {\textbf{2.7\%}} area overhead in a systolic-array accelerator.
+By tightly co-designing compression logic with accelerator architecture, \proj{} enables scalable, high-performance deployment of VLMs on both edge and cloud platforms, and paves the way for future hardware-aware multimodal systems.
+
+
